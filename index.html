@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>UBTrans</title>
+   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+
+<script>
+const SUPABASE_URL = 'https://knwyvjyqipmkujezsmzf.supabase.co'
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtud3l2anlxaXBta3VqZXpzbXpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzcxNzI0MDksImV4cCI6MTk5Mjc0ODQwOX0.vWxqxQgVp8XufmeDKBKWEPZcB3HqiOCWCtnPfGiyS_A'
+
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+
+
+async function ubFaculties() {
+    const { data, error } = await _supabase
+            .from('faculties')
+            .select()
+
+    if(!error) {
+        //loop display data here
+        const parent = document.getElementById('faculties')
+    console.log(data)
+    console.log(error)
+        let contents = ''
+        data.forEach(function(item){
+            contents += `<div> ${item.faculty_id} - ${item.faculty_name} - ${item.faculty_descriptioin}</div><div><br></div>` 
+        })
+
+        parent.insertAdjacentHTML('beforeend', contents)
+    }
+    
+}
+
+async function ubInstructors() {
+    const { data, error } = await _supabase
+            .from('instructors')
+            .select()
+    console.log(data)
+    console.log(error)
+    if(!error) {
+        //loop display data here
+        const parent = document.getElementById('instructors')
+
+        let contents = ''
+        data.forEach(function(item){
+            contents += `<div> ${item.instructor_name} - ${item.instructor_email}</div>` 
+        })
+
+        parent.insertAdjacentHTML('beforeend', contents)
+    }
+    
+}
+
+
+
+</script>
+ <div class="container">
+<nav>
+  <ul>
+    <li><strong>UB-Trans</strong></li>
+  </ul>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Matrix</a></li>
+	<li><a href="#">Equivalency Evaluation Instrument</a></li>
+  </ul>
+</nav>
+</div>
+
+
+ <main class="container">
+
+  <div><button onclick="ubFaculties()">Click For Faculty Names</button>
+<article id="faculties"></article>
+</div>
+
+
+</main>
+</body>
+</html>
